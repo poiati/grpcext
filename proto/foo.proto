@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+service FooService {
+    rpc DoFoo(FooRequest) returns (FooResponse);
+}
+
+message FooRequest {
+    string foo = 1;
+    int32 number = 2;
+    bool flag = 3;
+}
+
+message FooResponse {
+    string bar = 1;
+}

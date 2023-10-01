@@ -1,0 +1,12 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: trace/protobuf
+plugins:
+  - name: go
+    out: gen
+    opt: paths=source_relative
+  - name: go-grpc
+    out: gen
+    opt: paths=source_relative
