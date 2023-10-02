@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"trace/gen/proto"
+	"github.com/poiati/grpcext/gen/proto"
 )
 
 func BenchmarkWithoutInterceptor(b *testing.B) {

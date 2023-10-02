@@ -1,4 +1,4 @@
-package trace
+package inspect
 
 import (
 	"reflect"
@@ -10,6 +10,8 @@ var supportedTypes = map[protoreflect.Kind]reflect.Kind{
 	protoreflect.StringKind: reflect.String,
 	protoreflect.Int32Kind:  reflect.Int32,
 	protoreflect.Int64Kind:  reflect.Int64,
+	protoreflect.Uint32Kind: reflect.Uint32,
+	protoreflect.Uint64Kind: reflect.Uint64,
 	protoreflect.BoolKind:   reflect.Bool,
 }
 
