@@ -7,9 +7,12 @@ service FooService {
 }
 
 message FooRequest {
-    string foo = 1;
+    string text = 1;
     int32 number = 2;
     bool flag = 3;
+    int64 long_number = 4;
+    uint32 unsigned_number = 5;
+    uint64 unsigned_long_number = 6;
 }
 
 message FooResponse {

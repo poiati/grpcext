@@ -11,22 +11,22 @@ import (
 )
 
 func TestFieldsFor(t *testing.T) {
-	fooReq := proto.FooRequest{
-		Foo: "fooValue",
+	fooReq := &proto.FooRequest{
+		Text:       "fooValue",
+		Number:     11,
+		Flag:       true,
+		LongNumber: 64,
 	}
 
-	fields, err := trace.FieldsFor(fooReq.ProtoReflect())
-
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
+	fields := trace.FieldsFor(fooReq)
 
 	assert.Equal(
 		t,
 		[]trace.Field{
-			{"foo", reflect.String},
-			{"number", reflect.Int32},
-			{"flag", reflect.Bool},
+			{"text", reflect.String, "fooValue"},
+			{"number", reflect.Int32, int32(11)},
+			{"flag", reflect.Bool, true},
+			{"long_number", reflect.Int64, int64(64)},
 		},
 		fields,
 	)
