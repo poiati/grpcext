@@ -19,3 +19,17 @@ message FooRequest {
 message FooResponse {
     string bar = 1;
 }
+
+message ComplexMesasge {
+    bool flag = 1;
+    NestedMessage nested = 2;
+}
+
+message NestedMessage {
+    string nested_text = 1;
+    DeeperNestedMessage deeper_nested = 2;
+}
+
+message DeeperNestedMessage {
+    string deeper_nested_text = 1;
+}

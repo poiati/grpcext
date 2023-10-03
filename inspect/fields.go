@@ -2,6 +2,7 @@ package inspect
 
 import (
 	"reflect"
+	"strings"
 
 	"google.golang.org/protobuf/reflect/protoreflect"
 )
@@ -25,8 +26,11 @@ type Field struct {
 // FieldsFor returns a slice of fields for the given proto message.
 // Not all proto types are supported by default.
 func FieldsFor(msg protoreflect.ProtoMessage) []Field {
-	protoReflect := msg.ProtoReflect()
-	descriptor := protoReflect.Descriptor()
+	return fieldsForMessage(msg.ProtoReflect(), "")
+}
+
+func fieldsForMessage(msg protoreflect.Message, prefix string) []Field {
+	descriptor := msg.Descriptor()
 	fieldsDesc := descriptor.Fields()
 
 	fields := make([]Field, 0, fieldsDesc.Len())
@@ -38,12 +42,30 @@ func FieldsFor(msg protoreflect.ProtoMessage) []Field {
 			continue
 		}
 
+		qualifiedName := string(protoField.Name())
+		if prefix != "" {
+			qualifiedName = strings.Join([]string{prefix, string(protoField.Name())}, ".")
+		}
+
 		if goKind, ok := supportedTypes[protoField.Kind()]; ok {
 			fields = append(fields, Field{
-				Name:  string(protoField.Name()),
+				Name:  qualifiedName,
 				Kind:  goKind,
-				Value: protoReflect.Get(protoField).Interface(),
+				Value: msg.Get(protoField).Interface(),
 			})
+		} else {
+			if protoField.Kind() != protoreflect.MessageKind {
+				continue
+			}
+
+			// Handle nested messages recursively.
+			fields = append(
+				fields,
+				fieldsForMessage(
+					msg.Get(protoField).Interface().(protoreflect.Message),
+					qualifiedName,
+				)...,
+			)
 		}
 	}
 

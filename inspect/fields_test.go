@@ -57,3 +57,26 @@ func TestFieldsForUnsupportedType(t *testing.T) {
 		fields,
 	)
 }
+
+func TestFieldsForNestedMessage(t *testing.T) {
+	msg := &proto.ComplexMesasge{
+		Nested: &proto.NestedMessage{
+			NestedText: "nested text",
+			DeeperNested: &proto.DeeperNestedMessage{
+				DeeperNestedText: "deeper nested text",
+			},
+		},
+	}
+
+	fields := inspect.FieldsFor(msg)
+
+	assert.Equal(
+		t,
+		[]inspect.Field{
+			{"flag", reflect.Bool, false},
+			{"nested.nested_text", reflect.String, "nested text"},
+			{"nested.deeper_nested.deeper_nested_text", reflect.String, "deeper nested text"},
+		},
+		fields,
+	)
+}
