@@ -35,3 +35,25 @@ func TestFieldsFor(t *testing.T) {
 		fields,
 	)
 }
+
+func TestFieldsForUnsupportedType(t *testing.T) {
+	fooReq := &proto.FooRequest{
+		Text: "the field below in unsupported",
+		Data: []byte("data here"),
+	}
+
+	fields := inspect.FieldsFor(fooReq)
+
+	assert.Equal(
+		t,
+		[]inspect.Field{
+			{"text", reflect.String, "the field below in unsupported"},
+			{"number", reflect.Int32, int32(0)},
+			{"flag", reflect.Bool, false},
+			{"long_number", reflect.Int64, int64(0)},
+			{"unsigned_number", reflect.Uint32, uint32(0)},
+			{"unsigned_long_number", reflect.Uint64, uint64(0)},
+		},
+		fields,
+	)
+}

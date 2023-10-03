@@ -13,6 +13,7 @@ message FooRequest {
     int64 long_number = 4;
     uint32 unsigned_number = 5;
     uint64 unsigned_long_number = 6;
+    bytes data = 7;
 }
 
 message FooResponse {
