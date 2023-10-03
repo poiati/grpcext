@@ -73,3 +73,12 @@ BenchmarkWithIterceptor/grpc_call-12                      103459            1153
 PASS
 ok      github.com/poiati/grpcext/example       26.414s
 ```
+
+## Roadmap
+
+For now it just supports basic fields inspection.
+
+- Add support to nested messages
+- Add support to lists (repeated)
+- Add support to maps
+- Add an option to exclude fields
